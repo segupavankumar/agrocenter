@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'shop',
     'mathfilters',
-    'doctor'
+    'doctor',
+    'article'
     
 ]
 
