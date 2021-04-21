@@ -232,6 +232,7 @@
                   <h4 class="card-title">{{i.crop_name}}</h4>
                   <p class="card-text">Price /kg: Rs {{i.price_per_kg}}</p>
                   <p>Sold By : {{i.sold_by}}</p>
+                  <p>Remaing Quantity : {{i.remaing_quantity}}</p>
                   <p>
                   {%if i.rating  != 0%}
                   {% with ''|center:i.rating as range %}
@@ -246,6 +247,7 @@
                   {%else%}
                   <p>Rating : Not Rated</p>
                   {%endif%}
+                  
                   <button
                     data-id="{{i.id}}"
                     data-action="add"

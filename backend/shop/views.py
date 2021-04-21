@@ -244,8 +244,7 @@ def payment_status(request):
         frui = fruits.objects.get(id = i.crop_id)
         crop.append(frui.crop_name)        
         frui.quantity_bought = frui.quantity_bought+i.quantity
-        frui.quantity_in_kg =  frui.quantity_in_kg - i.quantity
-        frui.amount = frui.amount +(i.quantity * frui.quantity_in_kg)
+        frui.amount = frui.amount +(i.quantity * frui.price_per_kg)
         frui.remaing_quantity = frui.remaing_quantity - i.quantity
         frui.save()
 

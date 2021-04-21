@@ -1,3 +1,4 @@
+{% load mathfilters %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -57,8 +58,9 @@
         <div class="content">
             <h3>product image</h3>
             <h3>name</h3>
+            <h3>quantity</h3>
             <h3>Price</h3>
-            <h3>Price</h3>
+            <h3>Total price</h3>
           </div>
           {%for i in fruits%}
         <div class="content">
@@ -66,6 +68,9 @@
           <h3>{{i.0.crop_name}}</h3>
           <h3>{{i.1.quantity}}</h3>
           <h3>{{i.0.price_per_kg}}</h3>
+          {% with numerator=i.1.quantity mul=i.0.price_per_kg %}
+          <h3>{{ numerator|mul:mul }}</h3>
+          {% endwith %}
         </div>
         {%endfor%}
         <div class="content">
