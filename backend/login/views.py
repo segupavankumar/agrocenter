@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib import  messages
 from django.contrib.auth import login,authenticate,logout
+from verify_email.email_handler import send_verification_email
 
 
 from .models import User
@@ -40,9 +41,11 @@ def signup(request):
     
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
+            # form.save()
+            # username = form.cleaned_data.get('username')
+            # mail = form.cleaned_data.get('email')
+            inactive_user = send_verification_email(request, form)
+            messages.success(request, 'a verification mail has been sent to your email')
             print('hai')    
             return redirect('login')
     else:

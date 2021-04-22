@@ -93,6 +93,12 @@
     <div >
       {%if status == 'yes'%}
       <h2>Order Placed successfuly</h2>
+      <p>Order placed succefully
+        order id is {{order.id}} 
+        Your product has been shipped from our end and you shall be receiving the product in the next 2-3 working days 
+        Dispatch partner: Bluedart
+         AWB Number: 69591278912 
+         Transaction id is {{order.trasaction_id}} </p>
       <button type="button" class="btn btn-outline-primary"><a href='/shop'>Continue shoping
       </a>
       </button>
@@ -114,9 +120,8 @@
             <div class="ml-2 single_footer">
               <h4>Quick Links</h4>
               <ul style="font-size: 24px">
-                <li><a href="#">Digital Doctor</a></li>
-                <li><a href="#">Pest Detector</a></li>
-                <li><a href="#">Crop Suggestor</a></li>
+                <li><a href="/doctor/crops">Digital Doctor</a></li>
+                <li><a href ="/articles/">Articles</a></li>
                 <!-- <li><a href="#">Standard dummy text</a></li>
                   <li><a href="#">Type specimen book</a></li> -->
               </ul>

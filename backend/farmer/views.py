@@ -17,38 +17,8 @@ from backend.settings import EMAIL_HOST_USER
 from background_task import background
 from django.utils import timezone
 
-@background(schedule = timezone.now())
-def range_of_prices():
-    '''
-    **Fuctionality**
-
-    This function scraps the two web links for daily prices of fruits and vegetables 
-    and writes it to two sepearte text files.
-
-    This function is scheduled to run once in a day to update the prices
-    
-    
-    '''
 
 
-    resul1 = requests.get(
-        'https://market.todaypricerates.com/Andhra-Pradesh-vegetables-price')
-    resul2 = requests.get(
-        'https://market.todaypricerates.com/Andhra-Pradesh-fruits-price')
-
-    soup1 = BeautifulSoup(resul1.content, 'html.parser')
-    soup2 = BeautifulSoup(resul2.content, 'html.parser')
-
-    table1 = soup1.find(class_="Table").get_text()
-    table2 = soup2.find(class_="Table").get_text()
-
-    with open("vege.txt", 'w', encoding='utf-8') as f:
-        f.write(table1.strip())
-        f.close()
-
-    with open("frui.txt", 'w', encoding='utf-8') as f:
-        f.write(table2.strip())
-        f.close()
 
 def get_prices():
     f1 = open('vege.txt')

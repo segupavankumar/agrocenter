@@ -1,4 +1,5 @@
 {%load static%}
+{%load google_translate%}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -76,6 +77,7 @@
               src="{{i.image.url}}"
               alt=""
             />
+            <h4>Published on : {{i.pub_date}}</h4>
           </div>
         </div>
       </div>
@@ -109,9 +111,8 @@
             <div class="ml-2 single_footer">
               <h4>Quick Links</h4>
               <ul style="font-size: 24px">
-                <li><a href="#">Digital Doctor</a></li>
-                <li><a href="#">Pest Detector</a></li>
-                <li><a href="#">Crop Suggestor</a></li>
+                <li><a href="/doctor/crops">Digital Doctor</a></li>
+                <li><a href ="/articles/">Articles</a></li>
                 <!-- <li><a href="#">Standard dummy text</a></li>
                         <li><a href="#">Type specimen book</a></li> -->
               </ul>
@@ -153,6 +154,7 @@
                     <i class="fa fa-paper-plane fa-lg" aria-hidden="true"></i>
                   </button>
                 </form>
+                {%google_translate%}
               </div>
             </div>
             <!-- <div class="social_profile">

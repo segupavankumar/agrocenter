@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'shop',
     'mathfilters',
     'doctor',
+    "verify_email",
     'article'
     
 ]
@@ -179,4 +180,4 @@ SOCIALACCOUNT_PROVIDERS = {
         }
     }}
 
-
+VERIFICATION_SUCCESS_TEMPLATE = None

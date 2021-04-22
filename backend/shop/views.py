@@ -148,15 +148,11 @@ def checkout(request):
 
     user_id = request.user.id
     cart_objects = cart.objects.get(user_id=user_id)
-    print(user_id)
-    print(cart_objects)
     items = cart_objects.cart_list.filter(user_id__in=[user_id])
     list = []
     for i in items:
         list.append(i.crop_id)
-    print(list)
     frui = fruits.objects.filter(id__in=list)
-    print(frui)
     Fruits = zip(frui, items)
     Order = order.objects.get(user=request.user,complete=False)
     amount = Order.amount/100
@@ -208,7 +204,6 @@ def payment_status(request):
     :template:`order_summary.html`
     '''
     user_id = request.user.id
-    print('hi')
     res = request.POST
     params_dict = {
         'razorpay_order_id': res['razorpay_order_id'] ,
@@ -216,80 +211,75 @@ def payment_status(request):
         'razorpay_signature': res[ 'razorpay_signature']
     }
 
-    # try:
-    status = client.utility.verify_payment_signature(params_dict)
-    Order = order.objects.get(transaction_id = res['razorpay_order_id']) 
-    Order.complete = True
-    Order.save()
-    print(Order.id)
-    cart_objects = cart.objects.get(user_id=user_id)
-    items = cart_objects.cart_list.filter(user_id__in=[user_id])
+    try:
+        status = client.utility.verify_payment_signature(params_dict)
+        Order = order.objects.get(transaction_id = res['razorpay_order_id']) 
+        Order.complete = True
+        Order.save()
+        cart_objects = cart.objects.get(user_id=user_id)
+        items = cart_objects.cart_list.filter(user_id__in=[user_id])
+                            
+        list = []
+        for i in items:
+            list.append(i.crop_id)
+        l = past_cart.objects.all().count()
+        Cart,created = past_cart.objects.get_or_create(id=l+1,user_id=user_id)
+        frui = fruits.objects.filter(id__in=list)
+        quan= []
+        crop = []
+        for i in items:
+            quan.append(i.quantity)
+            cartitem = past_items.objects.create(user_id=user_id, crop_id=i.crop_id,quantity = i.quantity)
+            Cart.past_cart_list.add(cartitem)
+            frui = fruits.objects.get(id = i.crop_id)
+            crop.append(frui.crop_name)        
+            frui.quantity_bought = frui.quantity_bought+i.quantity
+            frui.amount = frui.amount +(i.quantity * frui.price_per_kg)
+            frui.remaing_quantity = frui.remaing_quantity - i.quantity
+            frui.save()
+
+        user_ = []
+
+        for i in range(len(list)):
+            id_ = fruits.objects.get(id = list[i]).farmer_id
+            user_.append(User.objects.get(id = id_).email)
+
+        from_email = EMAIL_HOST_USER
+        subject = 'Order recieved'
+        message = 'A order has been recieved for  {}#crop name and the quantity is {} at the address {}'
+
+        msg = []
+        mail_list = []
+
+        for i,j,k in zip(crop,quan,user_):
+            m = message.format(i,j,request.user.address)
+            mail_list.append((subject,m,from_email,[k]))
+        send_mass_mail(tuple(mail_list),fail_silently=False)
+                            
+                
+        Order.cart_id = Cart.id
+        today = datetime.datetime.now().date()
+        Order.deliverable_date =  today + datetime.timedelta(days=2) 
+        Order.save()
+        cart_objects.delete()
+        items.delete()
+                
+        mesage_1 = "Greetings from Agrocentre \n Order placed succefully \n order id is {} \n Your product has been shipped from our end and you shall be receiving the product in the next 2-3 working days.\n Dispatch partner: Bluedart \n AWB Number: 69591278912 \n Transaction id is {}  "
+        subject = "Order placed"
+        msg = "\n https://bluedart.com/tracking"
+        mesage_1 = mesage_1.format(Order.id,Order.transaction_id)  
+        mesage_1 = mesage_1 + msg
+        send_mail(subject,mesage_1,from_email,[request.user.email],fail_silently=False)
                         
-    list = []
-    for i in items:
-        list.append(i.crop_id)
-    l = past_cart.objects.all().count()
-    print(l)
-    Cart,created = past_cart.objects.get_or_create(id=l+1,user_id=user_id)
-    print(Cart)
-    frui = fruits.objects.filter(id__in=list)
-    quan= []
-    crop = []
-    for i in items:
-        quan.append(i.quantity)
-        cartitem = past_items.objects.create(user_id=user_id, crop_id=i.crop_id,quantity = i.quantity)
-        print(cartitem)
-        Cart.past_cart_list.add(cartitem)
-        print(i.crop_id)
-        frui = fruits.objects.get(id = i.crop_id)
-        crop.append(frui.crop_name)        
-        frui.quantity_bought = frui.quantity_bought+i.quantity
-        frui.amount = frui.amount +(i.quantity * frui.price_per_kg)
-        frui.remaing_quantity = frui.remaing_quantity - i.quantity
-        frui.save()
-
-    user_ = []
-
-    for i in range(len(list)):
-        id_ = fruits.objects.get(id = list[i]).farmer_id
-        user_.append(User.objects.get(id = id_).email)
-
-    from_email = EMAIL_HOST_USER
-    subject = 'Order recieved'
-    message = 'A order has been recieved for  {}#crop name and the quantity is {} at the address {}'
-
-    msg = []
-    mail_list = []
-
-    for i,j,k in zip(crop,quan,user_):
-        m = message.format(i,j,request.user.address)
-        mail_list.append((subject,m,from_email,[k]))
-    send_mass_mail(tuple(mail_list),fail_silently=False)
-                        
-            
-    Order.cart_id = Cart.id
-    today = datetime.datetime.now().date()
-    Order.deliverable_date =  today + datetime.timedelta(days=2) 
-    Order.save()
-    cart_objects.delete()
-    items.delete()
-            
-    mesage_1 = "Greetings from Agrocentre \n Order placed succefully \n order id is {} \n Your product has been shipped from our end and you shall be receiving the product in the next 2-3 working days.\n Dispatch partner: Bluedart \n AWB Number: 69591278912 \n Transaction id is {}  "
-    subject = "Order placed"
-    msg = "\n https://bluedart.com/tracking"
-    mesage_1 = mesage_1.format(Order.id,Order.transaction_id)  
-    mesage_1 = mesage_1 + msg
-    send_mail(subject,mesage_1,from_email,[request.user.email],fail_silently=False)
-                    
 
 
 
 
-    return render(request,'order_summary.html',{'status':'yes','order':Order})
-    # except :
-        # print(Exception)
-        # Order = order.objects.get(transaction_id = res['razorpay_order_id']).delete()
-        # return render(request,'order_summary.html',{'status':'no'})
+        return render(request,'order_summary.html',{'status':'yes','order':Order})
+    except :
+        print(Exception)
+        Order = order.objects.get(transaction_id = res['razorpay_order_id']).delete()
+        return render(request,'order_summary.html',{'status':'no'})
         
 
 
