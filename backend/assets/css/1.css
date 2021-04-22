@@ -1,29 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-html,body{
-  display: grid;
-  height: 100%;
-  place-items: center;
-  text-align: center;
-  background: #000;
-}
-.container{
-  position: relative;
-  width: 400px;
-  background: #111;
-  padding: 20px 30px;
-  border: 1px solid #444;
-  border-radius: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
 .container .post{
   display: none;
 }
@@ -99,20 +74,6 @@ form .textarea{
   height: 100px;
   width: 100%;
   overflow: hidden;
-}
-form .textarea textarea{
-  height: 100%;
-  width: 100%;
-  outline: none;
-  color: #eee;
-  border: 1px solid #333;
-  background: #222;
-  padding: 10px;
-  font-size: 17px;
-  resize: none;
-}
-.textarea textarea:focus{
-  border-color: #444;
 }
 form .btn{
   height: 45px;

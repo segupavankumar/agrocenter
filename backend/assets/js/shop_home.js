@@ -261,7 +261,9 @@ function updateusercart(user_id,quantity,item_id){
 
     .then((response)=>{
       if(response.ok){
-      return response.json()}
+       document.getElementById('mod').showModal();
+      return response.json()
+    }
       else{
         alert('error')
       }

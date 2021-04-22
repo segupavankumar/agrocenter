@@ -1,6 +1,8 @@
 from django.shortcuts import render,redirect
 from login.models import mailinglist
 from farmer.models import fruits
+from django.core.mail import send_mail
+from backend.settings import EMAIL_HOST_USER
 def home(request):
     '''
     **Functionality**
@@ -40,4 +42,13 @@ def about(request):
     Displays about page to the user 
     
     '''
+    if request.method == "POST":
+        email = request.POST['email']
+        subject = request.POST['subject']
+        text = request.POST['text']
+
+        send_mail(subject,text,email,[EMAIL_HOST_USER],fail_silently=False)
+
+        return redirect('/about')
+
     return render(request,'about.html')
