@@ -26,8 +26,6 @@ SECRET_KEY = '@w%0@8p0=1^thisd-0g#!c9#$)-=a8cpmds$g9o7$$5ebm5=eu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
 
 
 # Application definition
@@ -71,6 +69,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'backend.urls'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 TEMPLATES = [
     {

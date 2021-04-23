@@ -29,12 +29,10 @@ def days_after_upload():
     frui = fruits.objects.all()
     for i in frui:
         a = (datetime.datetime.now((timeZ_Kl)) - i.created_time).days
-        print(a)
 
 
 def avail_quantity(id):
     sum = fruits.objects.filter(crop_id=id).aggregate(Sum('quantity_in_kg'))
-    print(sum)
 
 
 # shop
@@ -68,7 +66,6 @@ def shop(request):
     '''
     l = []
     if 'crop' in request.POST:
-        print(request.POST['crop'])
         all_fruits = fruits.objects.filter(crop_name__icontains=request.POST['crop'])
     elif 'cat' in request.POST:
         all_fruits = fruits.objects.filter(category=request.POST['cat'])  & fruits.objects.filter(remaing_quantity__gt = 0)
@@ -84,7 +81,6 @@ def shop(request):
         all_fruits = fruits.objects.filter(
                     price_per_kg__lte=x[0]) & fruits.objects.filter(price_per_kg__gte=x[1]) & fruits.objects.filter(remaing_quantity__gt = 0)
     else:
-        print('hi')
         all_fruits = fruits.objects.filter(remaing_quantity__gt = 0)
     # days_after_upload()
     return render(request, 'shop_home.html', {'farfruits': all_fruits})
@@ -112,11 +108,9 @@ def cart_(request):
     '''
 
     user_id = request.user.id
-    print(user_id)
     try:
         cart_objects = cart.objects.get(user_id=user_id)
     except:
-        print('hi')
         return render(request, "cart.html", {'fruits': None})
     items = cart_objects.cart_list.filter(user_id__in=[user_id])
     list = []
@@ -313,8 +307,6 @@ def update_cart(request):
     data = json.loads(request.body)
     quantity = data['quantities']
     ids = data['item_ids']
-    print(ids)
-    print(quantity)
 
     user_id = request.user.id
     for i in range(len(ids)):

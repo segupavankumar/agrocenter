@@ -3,6 +3,9 @@ from login.models import mailinglist
 from farmer.models import fruits
 from django.core.mail import send_mail
 from backend.settings import EMAIL_HOST_USER
+from django.views.decorators.clickjacking import xframe_options_sameorigin
+
+
 def home(request):
     '''
     **Functionality**
@@ -28,11 +31,12 @@ def home(request):
         email = request.POST['email']
         a = mailinglist(email = email)
         a.save()
-        print(email)
 
         return redirect('/')
     return render(request,'home.html')
 
+
+@xframe_options_sameorigin
 def about(request):
 
     '''

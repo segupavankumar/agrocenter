@@ -327,6 +327,13 @@
                   <a href="#2" title="Give 2 stars" data-order="{{j.id}}" data-past = "{{a.3}}" data-id = "{{a.0.id}}" data-value="2">★</a>
                   <a href="#1" title="Give 1 star" data-order="{{j.id}}" data-past = "{{a.3}}" data-id = "{{a.0.id}}" data-value="1">★</a>
                 </div>
+                {%else%}
+                You rated :
+                {% with ''|center:a.2 as range %}
+                  {% for _ in range %}
+                  <i class="fa fa-star fa-sm text-primary" aria-hidden="true"></i>
+                  {% endfor %}
+                    {% endwith %}
                 {%endif%}
 
               </p>

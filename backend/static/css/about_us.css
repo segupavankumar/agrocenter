@@ -8,39 +8,6 @@ body {
     rgba(253, 253, 253, 0.1)
   );
 }
-nav .logo {
-  width: 60px;
-  height: 10vh;
-  align-items: left;
-  margin-left: 50px;
-  float: center;
-}
-
-nav {
-  background-color: white;
-  overflow: hidden;
-}
-
-nav a {
-  text-decoration: none;
-  padding: 20px;
-  text-align: right;
-  float: right;
-  color: black;
-  font-family: "Times New Roman", Times, serif;
-  width: 10%;
-  display: flex;
-  justify-content: space-around;
-}
-
-nav .bt {
-  padding: 12px 30px;
-  border-radius: 4px;
-  margin-top: 10px;
-  margin-right: 10px;
-  background: rgb(54, 53, 95);
-  color: white;
-}
 
 .bt:hover {
   background: gray;

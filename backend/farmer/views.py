@@ -128,14 +128,12 @@ def add_details(request):
         sold = User.objects.get(id=farmer_id)
         sold_by = sold.username
         id = fruits.objects.all().count()
-        print(id)
         fruit = fruits(id=id, sold_by=sold_by, farmer_id=farmer_id, crop_name=crop,
                        category=category, quantity_in_kg=quantity,remaing_quantity= quantity, price_per_kg=amount, image=image)
         fruit.save()
         return redirect('/')
     else:
         id = fruits.objects.all().count()
-        print(id)
         return render(request, 'farmer_add_crop.html', {'crop': crop_names, 'rates': crop_rates})
 
 
@@ -178,7 +176,6 @@ def orders_(request):
 
     cart_list = []
     amount = []
-    print(orders)
     for i in orders:
         amount.append(i.amount)
         cart_list.append(i.cart_id)
@@ -192,7 +189,6 @@ def orders_(request):
     ids = []
     lisof_crop = []
     rating = []
-    print(list_of_items)
     for i in list_of_items:
         q = []
         l = []
@@ -201,16 +197,12 @@ def orders_(request):
         for j in i:
             q.append(fruits.objects.get(id=j.crop_id))
             l.append(j.quantity)
-            print(j.rating)
             a.append(j.rating)
             t.append(j.id)
         rating.append(a)
         ids.append(t)
         quantity.append(l)
         lisof_crop.append(q)
-        print('')
-    print(quantity)
-    print(rating)
 
     items = []
     for i, j,z,v in zip(lisof_crop, quantity,rating,ids):
@@ -244,7 +236,6 @@ def edit_fruits(request):
 @login_required()
 def delete_fruit(request):
     data = json.loads(request.body)
-    print(data['item_id'])
     item_id = data['item_id']
     fruit = fruits.objects.get(id=item_id)
     fruit.suspend = True
@@ -295,7 +286,6 @@ def profile(request):
 def revenue(request):
     user = request.user
     frui = fruits.objects.filter(farmer_id = user.id)
-    print(frui)
     return HttpResponse('<h1>Revenue</h1>')
 
 def rating(request):
@@ -306,9 +296,7 @@ def rating(request):
     past_id = data['past_id']    
     orders = order.objects.get(id = order_id)
     past_item = past_cart.objects.get(id = orders.cart_id)
-    print(past_item)
     item = past_item.past_cart_list.get(id = past_id)
-    print(item.rating)
     item.rating  = rating
     item.save()
     frui = fruits.objects.get(id = item_id)
