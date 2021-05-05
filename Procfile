@@ -1,1 +1,1 @@
-backend : gunicorn
+backend : gunicorn backend.wsgi --log-file -
