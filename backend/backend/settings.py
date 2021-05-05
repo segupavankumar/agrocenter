@@ -25,8 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@w%0@8p0=1^thisd-0g#!c9#$)-=a8cpmds$g9o7$$5ebm5=eu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
+ALLOWED_HOSTS = ['agrocenter.herokuapp.com','']
 
 
 # Application definition
