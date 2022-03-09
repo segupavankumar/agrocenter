@@ -35,10 +35,10 @@ urlpatterns = [
     path('doctor/',include('doctor.urls')),
     path('articles/',include('article.urls')),
     path('accounts',include('allauth.urls')),
-    path('reset_password/',auth.PasswordResetView.as_view(), name='password_change'),
-    path('reset_password_sent/',auth.PasswordResetDoneView.as_view(), name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',auth.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
-    path('reset_password_complete/',auth.PasswordResetCompleteView.as_view(), name='password_reset_complete')
+#     path('reset_password/',auth.PasswordResetView.as_view(), name='password_change'),
+#     path('reset_password_sent/',auth.PasswordResetDoneView.as_view(), name='password_reset_done'),
+#     path('reset/<uidb64>/<token>/',auth.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+#     path('reset_password_complete/',auth.PasswordResetCompleteView.as_view(), name='password_reset_complete')
 
 ]
 
